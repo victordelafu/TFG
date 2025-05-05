@@ -1,0 +1,63 @@
+---
+const itemStyles =
+    'p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer'
+import { Image } from 'astro:assets'
+import Logo from '../assets/Logo.jpg'
+---
+
+<nav class="z-50 fixed top-0 right-0 left-0 p-6 bg-primary">
+    <div class="md:grid md:grid-cols-3 items-center text-white">
+        <!-- Primera columna - Menu izquierdo -->
+        <ul class="hidden md:flex justify-end gap-4">
+            <li>
+                <a
+                    class={itemStyles}
+                    href="/#sobre-nosotros"
+                    >Sobre Nosotros</a
+                >
+            </li>
+            <li>
+                <a
+                    class={itemStyles}
+                    href="/#"
+                    >Algo</a
+                >
+            </li>
+        </ul>
+
+        <!-- Segunda columna - Logo -->
+        <div class="flex justify-center">
+            <a href="/">
+				<Image
+                    src={Logo}
+                    height="44"
+                    width="241"
+                    alt="Proditex"
+                    class="h-11 object-contain"
+                    format="avif"
+                />
+
+            </a>
+        </div>
+
+        <!-- Tercera columna - Menu derecho -->
+        <ul class="hidden md:flex justify-start gap-4">
+            <li>
+                <a
+                    class={itemStyles}
+                    href="/#"
+                    >Algo</a
+                >
+            </li>
+            <li>
+                <a
+                    class={itemStyles}
+                    href="/#contacto"
+                    >Contacto</a
+                >
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="h-[5.75rem]"><!-- Espaciador para compensar el header fijo --></div>
+

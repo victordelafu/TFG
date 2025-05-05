@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #975536;
+  --color-primaryalt: #e5a484;
+  --color-alternative: #a2d4df;
+  --color-accent: #528c83;
+  --color-graytext: #4a5568;
+  --color-luz: #dddde2;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  font-family: 'Inter', system-ui, sans-serif;
+  scrollbar-width: auto;
+  scrollbar-color: #7989b1#f1f1f1; /* Darker thumb for more contrast */
+}
+html::selection {
+  background: #b7c1d9;
+}
+
+@view-transition {
+  navigation: auto;
+}
