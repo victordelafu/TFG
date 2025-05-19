@@ -1,0 +1,45 @@
+<!-- Modal de Registro -->
+<div id="modal-registro" class="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-2xl p-6 w-full max-w-md relative shadow-xl">
+    <button
+      class="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+      onclick="document.getElementById('modal-registro').classList.add('hidden')"
+    >
+      &times;
+    </button>
+    <h2 class="text-xl font-bold mb-4">Crear cuenta</h2>
+    <form id="form-registro" class="space-y-4">
+      <input
+        type="email"
+        name="email"
+        placeholder="Correo electrónico"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg"
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Contraseña"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg"
+      />
+      <select
+        name="rol"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg"
+      >
+        <option value="">Selecciona tu rol</option>
+        <option value="PATRON">Patrón</option>
+        <option value="CLIENTE">Cliente</option>
+      </select>
+      <button
+        type="submit"
+        class="bg-accent text-white px-4 py-2 rounded-lg w-full hover:bg-alternative"
+      >
+        Registrarse
+      </button>
+      <p id="registro-mensaje" class="text-sm mt-2 text-center text-red-600"></p>
+    </form>
+  </div>
+</div>
+

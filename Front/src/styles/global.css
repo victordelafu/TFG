@@ -19,7 +19,7 @@ body {
 html {
   font-family: 'Inter', system-ui, sans-serif;
   scrollbar-width: auto;
-  scrollbar-color: #7989b1#f1f1f1; /* Darker thumb for more contrast */
+  scrollbar-color: #7989b1#f1f1f1;
 }
 html::selection {
   background: #b7c1d9;

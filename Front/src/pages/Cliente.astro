@@ -1,0 +1,17 @@
+---
+import BarcoCard from '../components/BarcoCard.astro';
+import ChatWidget from '../components/ChatWidget.astro';
+---
+<layout:BaseLayout>
+  <section class="p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-2xl font-bold mb-6">Explora barcos</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <BarcoCard nombre="Velero Sunrise" tipo="Velero" precio="150" patron="Juan"/>
+      <BarcoCard nombre="Lancha Turbo" tipo="Lancha" precio="100" patron="Ana"/>
+      <!-- Aquí se mostrarían dinámicamente desde el backend -->
+    </div>
+
+    <ChatWidget />
+  </section>
+</layout:BaseLayout>
