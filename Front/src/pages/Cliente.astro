@@ -1,7 +1,16 @@
 ---
-import BarcoCard from '../components/BarcoCard.astro';
+import BarcoCard from '../components/BoatCard.astro';
 import ChatWidget from '../components/ChatWidget.astro';
+const barcosMock = [
+  { id: 1, nombre: "Barco Azul", tipo: "Velero", precioPorDia: 150 },
+  { id: 2, nombre: "El Tiburón", tipo: "Lancha", precioPorDia: 200 },
+];
 ---
+<script type="module">
+  localStorage.setItem("rol", "CLIENTE"); // o "CLIENTE"
+  localStorage.setItem("usuarioId", "1");
+</script>
+
 <layout:BaseLayout>
   <section class="p-6 bg-gray-100 min-h-screen">
     <h1 class="text-2xl font-bold mb-6">Explora barcos</h1>

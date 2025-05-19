@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets'
+
+
+import Logo from "../assets/LogoNuevo.JPG"
+
+const currentYear = new Date().getFullYear()
+---
+
+<footer class="bg-primary mt-10 p-0">
+    <div class="mx-auto w-full max-w-screen-xl p-4 py-10">
+        <div
+            class="flex flex-col md:flex-row flex-wrap md:justify-around gap-10 md:gap-2 mx-8 md:mx-0"
+        >
+            <div class="flex flex-col justify-between gap-15">
+                <a href="/">
+                    <Image
+                        src={Logo}
+                        alt="Proditex Logo"
+                        height="50"
+                    />
+                </a>
+            </div>
+            <div class="-mt-2">
+                <p
+                    class="mb-6 text-lg font-semibold text-white uppercase underline underline-offset-8"
+                    >Información</p
+                >
+                <ul class="text-emerald-50 font-medium">
+                    <li class="mb-4">
+                        <a
+                            href="/legal/aviso-legal"
+                            class="hover:underline"
+                        >
+                            Aviso legal
+                        </a>
+                    </li>
+                    <li class="mb-4">
+                        <a
+                            href="/legal/politica-de-privacidad"
+                            class="hover:underline"
+                        >
+                            Política de Privacidad
+                        </a>
+                    </li>
+                    <li class="mb-4">
+                        <a
+                            href="/legal/condiciones-de-uso"
+                            class="hover:underline"
+                        >
+                            Condiciones de Uso
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="/legal/politica-de-cookies"
+                            class="hover:underline"
+                        >
+                            Política de Cookies
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr class="mt-15 mb-6 border-gray-200 sm:mx-auto" />
+        <div class="sm:flex sm:items-center sm:justify-center">
+            <span class="text-sm text-white sm:text-center">
+                <p class="">{currentYear} &copy; MovilShip. Todos los derechos reservados.</p
+                ></span
+            >
+        </div>
+    </div>
+</footer>

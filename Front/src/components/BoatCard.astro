@@ -1,11 +1,72 @@
 ---
-const { nombre, tipo, precio, patron } = Astro.props;
+const { id, nombre, imagen, precio } = Astro.props;
 ---
 
-<div class="bg-white rounded-xl shadow p-4 flex flex-col justify-between">
-  <h2 class="text-xl font-semibold">{nombre}</h2>
-  <p class="text-gray-600">{tipo}</p>
-  <p class="text-sm text-gray-500">Patrón: {patron}</p>
-  <p class="text-indigo-600 font-bold mt-2">€{precio}/día</p>
-  <button class="mt-4 bg-indigo-500 text-white px-3 py-2 rounded hover:bg-indigo-600">Ver más</button>
+<!-- <a href={`/barco/${id}`} class="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+  <img src={imagen} alt={nombre} class="w-full h-48 object-cover" />
+  <div class="p-4">
+    <h2 class="text-lg font-bold">{nombre}</h2>
+    <p class="text-indigo-600 font-semibold">€{precio}/día</p>
+  </div>
+</a>  -->
+
+<div class="relative boat-card transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg" data-id={id}>
+  <div class="flex justify-center items-center ">
+    <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm ">
+      <a href={`/barco/${id}`} >
+        <img class="rounded-t-lg" src="https://cenelcano.com/wp-content/uploads/2020/08/navegar-a-vela.jpg" alt="" />
+      </a>
+      <div class="p-5">
+        <a href={`/barco/${id}`}>
+          <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{nombre}</h2>
+        </a>
+        <p class="mb-3 font-normal text-gray-700">€{precio}/día</p>
+      </div>
+    </div>
+  </div>
+  <!-- Botón de favorito -->
+  <button
+  type="button"
+  class="absolute top-2 right-2  p-2 text-xl"
+  aria-label="Añadir a favoritos"
+  data-id={id}
+  >
+  <span class="icon-fav">♡</span>
+  </button>
+  </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+ const favKey = "favoritos";
+ const favoritos = JSON.parse(localStorage.getItem(favKey) || "[]");
+
+ // Inicializar íconos
+ document.querySelectorAll(".boat-card").forEach(card => {
+   const id = card.dataset.id;
+   const icon = card.querySelector(".icon-fav");
+   if (favoritos.includes(id)) {
+     icon.textContent = "♥";
+   }
+ });
+
+ // Escuchar clics en botones de favoritos
+ document.querySelectorAll(".boat-card button").forEach(button => {
+   button.addEventListener("click", (e) => {
+     e.preventDefault();
+     const id = button.dataset.id;
+     const icon = button.querySelector(".icon-fav");
+     let favs = JSON.parse(localStorage.getItem(favKey) || "[]");
+
+     if (favs.includes(id)) {
+       favs = favs.filter(f => f !== id);
+       icon.textContent = "♡";
+     } else {
+       favs.push(id);
+       icon.textContent = "♥";
+     }
+
+     localStorage.setItem(favKey, JSON.stringify(favs));
+   });
+ });
+});
+</script>

@@ -1,0 +1,82 @@
+---
+const itemStyles =
+    'p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer'
+import { Image } from 'astro:assets'
+import Logo from '../../assets/LogoNuevo.JPG'
+---
+
+<nav class="z-50 fixed top-0 right-0 left-0 p-6 bg-primary">
+    <div class="md:grid md:grid-cols-3 items-center text-white">
+        <!-- Primera columna - Menu izquierdo -->
+        <ul class="hidden md:flex justify-end gap-4">
+            <li>
+                <a
+                    class={itemStyles}
+                    href="#"
+                    >Reservas</a
+                >
+            </li>
+            <li>
+                <a
+                    class={itemStyles}
+                    href="/Cliente/Favoritos"
+                    >Favoritos</a
+                >
+            </li>
+        </ul>
+        <!-- Segunda columna - Logo -->
+        <div class="flex justify-center">
+            <a href="/">
+				<Image
+                    src={Logo}
+                    height="44"
+                    width="241"
+                    alt="Movilship"
+                    class="h-11 object-contain"
+                    format="avif"
+                />
+
+            </a>
+        </div>
+
+        <!-- Tercera columna - Menu derecho -->
+        <ul class="hidden md:flex justify-start gap-4 items-center">
+            <li>
+                <a
+                    class={itemStyles}
+                    href="/#"
+                    >Contacto</a
+                >
+            </li>
+            <li class="relative group" role="menu">
+                <a
+                    class="p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer inline-flex items-center gap-1 focus:outline-none"
+                    href="#"
+                    >Mi cuenta
+                    <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </a>
+                    <ul class="absolute mt-2 hidden group-hover:flex flex-col bg-white text-black rounded-xl shadow-xl w-48 z-50">
+                       <li>
+                        <a href="#" class="block px-4 py-2 text-sm hover:bg-sky-100">
+                            Configuración 
+                        </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-sky-100">
+                                Cerrar sesión
+                            </a>
+                        </li>
+                    </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="h-[5.75rem]"><!-- Espaciador para compensar el header fijo --></div>

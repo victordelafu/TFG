@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Esqueleto from '../components/Esqueleto.astro';
 import Prueba from '../components/Prueba.astro'
 import Footer from '../components/Footer.astro';
+import BoatCard from '../components/BoatCard.astro';
 ---
 
 <Layout>
@@ -10,7 +11,7 @@ import Footer from '../components/Footer.astro';
         <section>
             <div class="relative w-full pb-10 min-h-2/5 pt-10 bg-primary">
                 <h1 class="text-white text-5xl text-center mb-10"
-                    >Frase</h1
+                    >Todos tus sueños se hacen realidad navegando</h1
                 >
                 <h2 class="text-2xl md:text-3xl text-white text-center"></h2>
 				<div class="flex justify-center mt-15 md:mx-30">
@@ -32,7 +33,7 @@ import Footer from '../components/Footer.astro';
             </div>
             <div class="relative px-4 py-2 bg-white">
                 <a
-                    href="#"
+                    href="#boatCard"
                     aria-label="flecha para bajar"
                     class="text-primary font-medium hover:text-primary-dark transition-colors"
                 >
@@ -68,11 +69,18 @@ import Footer from '../components/Footer.astro';
                         </p>
                     </div>
                 </div>
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mx-8 md:mx-12 lg:mx-20 my-8 md:mb-12 lg:mb-30 ml-96">
-					<Esqueleto/>
-					<Esqueleto/>
-					<Esqueleto/>
+				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10" id="boatCard">
+					<BoatCard></BoatCard>
+                    <BoatCard></BoatCard>
+                    <BoatCard></BoatCard>
+                    <BoatCard></BoatCard>
+                    <BoatCard></BoatCard>
 				</div>
+                <div class="text-center">
+                    <a href="/boats" class="inline-block bg-accent text-white px-6 py-3 rounded-lg text-lg hover:bg-alternative">
+                      Ver todos los barcos →
+                    </a>
+                  </div>
             </div>
         </section>
         <!-- ------------------------------------------------------------------------ -->

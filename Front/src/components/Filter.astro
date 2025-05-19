@@ -1,0 +1,43 @@
+---
+const { onFilter } = Astro.props;
+---
+
+<form id="filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+  <input
+    type="text"
+    name="tamaño"
+    placeholder="Tamaño mínimo (m)"
+    class="border px-4 py-2 rounded"
+  />
+
+  <input
+    type="number"
+    name="precioMax"
+    placeholder="Precio máximo"
+    class="border px-4 py-2 rounded"
+  />
+
+  <input
+    type="date"
+    name="fecha"
+    placeholder="Fecha"
+    class="border px-4 py-2 rounded"
+  />
+
+  <button
+    type="submit"
+    class="bg-accent text-white px-4 py-2 rounded hover:bg-alternative"
+  >
+    Filtrar
+  </button>
+</form>
+
+<script>
+  const form = document.getElementById("filter-form");
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const filtros = Object.fromEntries(data.entries());
+    window.dispatchEvent(new CustomEvent("filtros-aplicados", { detail: filtros }));
+  });
+</script>

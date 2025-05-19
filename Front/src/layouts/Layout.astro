@@ -1,17 +1,18 @@
 ---
 import "../styles/global.css";
-import Header from "../components/Header.astro";
+import Header from "../components/Header.astro"
 import Registro from "../components/Registro.astro";
 import Login from "../components/Login.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="../assets/Logo.jpg" />
+		<link rel="icon" type="image/svg+xml" href="../../public/Logo.JPG" />
 		<meta name="generator" content={Astro.generator} />
 		<title>MovilShip</title>
 	</head>
@@ -22,7 +23,7 @@ import Login from "../components/Login.astro";
 		<main>
 			<slot />
 		</main>
-
+		<Footer></Footer>
 	</body>
 </html>
 
