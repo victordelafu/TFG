@@ -1,26 +1,53 @@
 ---
+// Aquí defines los datos simulados:
+import Layout from "../layouts/ClienteLayout.astro";
 import BarcoCard from '../components/BoatCard.astro';
-import ChatWidget from '../components/ChatWidget.astro';
-const barcosMock = [
-  { id: 1, nombre: "Barco Azul", tipo: "Velero", precioPorDia: 150 },
-  { id: 2, nombre: "El Tiburón", tipo: "Lancha", precioPorDia: 200 },
+import Filter from '../components/Filter.astro';
+
+// Datos simulados por ahora
+const barcos = [
+  { id: 1, nombre: "Mar Azul", imagen: "/barcos/1.jpg", precio: 150 },
+  { id: 2, nombre: "Navegante", imagen: "/barcos/2.jpg", precio: 200 },
+  { id: 3, nombre: "Sol y Mar", imagen: "/barcos/3.jpg", precio: 175 },
+  { id: 4, nombre: "Velero del Sur", imagen: "/barcos/4.jpg", precio: 210 },
 ];
 ---
-<script type="module">
-  localStorage.setItem("rol", "CLIENTE"); // o "CLIENTE"
-  localStorage.setItem("usuarioId", "1");
-</script>
 
-<layout:BaseLayout>
-  <section class="p-6 bg-gray-100 min-h-screen">
-    <h1 class="text-2xl font-bold mb-6">Explora barcos</h1>
+<!-- Aquí empieza el HTML que renderiza esos datos -->
+ <Layout>
+  
+  <section class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-bold mb-6">Navega con tu barco favorito</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <BarcoCard nombre="Velero Sunrise" tipo="Velero" precio="150" patron="Juan"/>
-      <BarcoCard nombre="Lancha Turbo" tipo="Lancha" precio="100" patron="Ana"/>
-      <!-- Aquí se mostrarían dinámicamente desde el backend -->
+    <Filter />
+
+    <div id="barco-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {barcos.map(barco => (
+        <BarcoCard {...barco} />
+      ))}
     </div>
-
-    <ChatWidget />
   </section>
-</layout:BaseLayout>
+  <script type="module">
+    const barcos = JSON.parse({JSON.stringify(barcos)});
+    const contenedor = document.getElementById("barco-grid");
+
+    window.addEventListener("filtros-aplicados", (event) => {
+      const { tamaño, precioMax } = event.detail;
+
+      const filtrados = barcos.filter(barco => {
+        return (!tamaño || barco.tamaño >= parseInt(tamaño)) &&
+               (!precioMax || barco.precio <= parseInt(precioMax));
+      });
+
+      contenedor.innerHTML = filtrados.map(b => `
+        <a href="/boats/${b.id}" class="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+          <img src="${b.imagen}" alt="${b.nombre}" class="w-full h-48 object-cover" />
+          <div class="p-4">
+            <h2 class="text-lg font-bold">${b.nombre}</h2>
+            <p class="text-primary font-semibold">€${b.precio}/día</p>
+          </div>
+        </a>
+      `).join('');
+    });
+  </script>
+</Layout>

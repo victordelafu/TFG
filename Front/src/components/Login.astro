@@ -1,34 +1,69 @@
-<div id="modal-login" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-2xl p-6 w-full max-w-md relative shadow-xl">
-      <button
-        class="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
-        onclick="document.getElementById('modal-login').classList.add('hidden')"
-      >
-        &times;
-      </button>
-      <h2 class="text-xl font-bold mb-4">Iniciar sesión</h2>
-      <form id="form-login" class="space-y-4">
-        <input
-          type="email"
-          name="email"
-          placeholder="Correo electrónico"
-          required
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Contraseña"
-          required
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg"
-        />
+<div id="modal-login" class="hidden fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30">
+  <div class="relative p-4 w-full max-w-md">
+    <!-- Modal content -->
+    <div class="bg-white rounded-lg shadow dark:bg-gray-700">
+      <!-- Header -->
+      <div class="flex items-center justify-between p-4 border-b dark:border-gray-600">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+          Iniciar sesión
+        </h3>
         <button
-          type="submit"
-          class="bg-accent text-white px-4 py-2 rounded-lg w-full hover:bg-alternative"
+          type="button"
+          onclick="document.getElementById('modal-login').classList.add('hidden')"
+          class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
         >
-          Entrar
+          ✕
         </button>
-        <p id="login-mensaje" class="text-sm mt-2 text-center text-red-600"></p>
-      </form>
+      </div>
+
+      <!-- Body -->
+      <div class="p-4 space-y-4">
+        <form id="form-login" class="space-y-4">
+          <div>
+            <label for="email" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Correo electrónico</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-alternative focus:border-alternative block w-full p-2.5"
+            />
+          </div>
+
+          <div>
+            <label for="password" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-alternative focus:border-alternative block w-full p-2.5"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-accent text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-accent focus:outline-none focus:ring-4 focus:ring-blue-300"
+          >
+            Entrar
+          </button>
+        </form>
+        <div class="text-sm font-medium text-gray-500 dark:text-gray-300"> 
+          ¿No tienes cuenta?
+          <button
+            type="button"
+            onclick="
+                      document.getElementById('modal-login')?.classList.add('hidden');
+                      document.getElementById('modal-registro').classList.remove('hidden');
+                    "
+
+            class="text-accent hover:underline dark:text-alternative"
+          >
+            Registrarse
+          </button>
+        </div>
+        
+      </div>
     </div>
   </div>
+</div>
