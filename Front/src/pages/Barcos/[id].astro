@@ -1,7 +1,6 @@
 ---
 import Layout from '../../layouts/ClienteLayout.astro';
 
-// Simulación de datos
 const barcos = [
   {
     id: '1',
@@ -29,7 +28,6 @@ const barcos = [
   }
 ];
 
-// Obtener el ID de la URL
 const { id } = Astro.params;
 const barco = barcos.find(b => b.id === id);
 ---
@@ -40,14 +38,14 @@ const barco = barcos.find(b => b.id === id);
       <h1 class="text-3xl font-bold mb-4">{barco.nombre}</h1>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <!-- Imágenes -->
+        
         <div class="space-y-4">
           {barco.imagenes.map(src => (
             <img src={src} alt={barco.nombre} class="rounded-xl shadow-md" />
           ))}
         </div>
 
-        <!-- Detalles -->
+
         <div>
           <p class="mb-4 text-lg">{barco.descripcion}</p>
           <p class="text-2xl text-primary font-bold mb-4">€{barco.precio}/día</p>
