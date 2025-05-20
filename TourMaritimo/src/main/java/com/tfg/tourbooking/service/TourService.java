@@ -1,7 +1,7 @@
-package com.tourbooking.service;
+package com.tfg.tourbooking.service;
 
-import com.tourbooking.model.Tour;
-import com.tourbooking.repository.TourRepository;
+import com.tfg.tourbooking.model.Tour;
+import com.tfg.tourbooking.repository.TourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

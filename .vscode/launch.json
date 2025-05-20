@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TourBookingApplication<TourMaritimo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.tfg.tourbooking.TourBookingApplication",
+            "projectName": "TourMaritimo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

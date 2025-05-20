@@ -1,7 +1,7 @@
-package com.tourbooking.controller;
+package com.tfg.tourbooking.controller;
 
-import com.tourbooking.model.Tour;
-import com.tourbooking.service.TourService;
+import com.tfg.tourbooking.model.Tour;
+import com.tfg.tourbooking.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
