@@ -1,6 +1,6 @@
-package com.tourbooking.repository;
+package com.tfg.tourbooking.repository;
 
-import com.tourbooking.model.Tour;
+import com.tfg.tourbooking.model.Tour;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

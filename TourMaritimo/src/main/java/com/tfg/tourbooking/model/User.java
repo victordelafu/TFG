@@ -1,4 +1,4 @@
-package com.tourbooking.model;
+package com.tfg.tourbooking.model;
 
 import jakarta.persistence.*;
 
@@ -9,6 +9,21 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    private String password; // añadir campo
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     private String role; // "TURISTA" o "PROPIETARIO"
 
     // Getters y setters

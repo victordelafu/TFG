@@ -1,4 +1,4 @@
-package com.tourbooking.model;
+package com.tfg.tourbooking.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
