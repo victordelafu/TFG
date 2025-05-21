@@ -1,0 +1,81 @@
+---
+const idContenedor = Astro.props.id ?? "barco-grid";
+const mostrarFavoritos = Astro.props.favoritos ?? false;
+---
+
+<div
+  id={idContenedor}
+  class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+  data-idcontenedor={idContenedor}
+  data-favoritos={mostrarFavoritos}
+/>
+
+<script type="module">
+  document.addEventListener("DOMContentLoaded", () => {
+    const rootDiv = document.querySelector("[data-idcontenedor]");
+    if (!rootDiv) return;
+
+    const mostrarFavoritos = rootDiv.dataset.favoritos === "true";
+    const barcos = JSON.parse(localStorage.getItem("barcos") || "[]");
+
+    let barcosAMostrar = barcos;
+
+    if (mostrarFavoritos) {
+      const favoritos = JSON.parse(localStorage.getItem("favoritos") || "[]");
+      barcosAMostrar = barcos.filter(b => favoritos.includes(b.id));
+    }
+
+    if (!barcosAMostrar.length) {
+  rootDiv.innerHTML = `
+    <div id="sin-favoritos" class="text-center text-gray-600 mt-10">
+      <p class="text-xl">No tienes barcos en favoritos todavía.</p>
+      <a href="/Cliente/Index" class="text-accent underline hover:text-alternative mt-2 inline-block">
+        Ver barcos disponibles →
+      </a>
+    </div>
+  `;
+  return;
+}
+
+
+    rootDiv.innerHTML = barcosAMostrar.map(b => `
+      <div class="relative boat-card" data-id="${b.id}">
+        <a href="/Barcos/${b.id}" class="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+          <img src="${b.imagen}" alt="${b.nombre}" class="w-full h-48 object-cover" />
+          <div class="p-4">
+            <h2 class="text-lg font-bold">${b.nombre}</h2>
+            <p class="text-primary font-semibold">€${b.precio}/día</p>
+          </div>
+        </a>
+        <button type="button" class="absolute top-2 right-2   hover:bg-opacity-100 transition text-xl" data-id="${b.id}">
+          <span class="icon-fav">♡</span>
+        </button>
+      </div>
+    `).join('');
+
+    const favoritos = JSON.parse(localStorage.getItem("favoritos") || "[]");
+    document.querySelectorAll(".boat-card").forEach(card => {
+      const id = card.dataset.id;
+      const icon = card.querySelector(".icon-fav");
+
+      if (favoritos.includes(id)) {
+        icon.textContent = "♥";
+      }
+
+      card.querySelector("button")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        let favs = JSON.parse(localStorage.getItem("favoritos") || "[]");
+
+        if (favs.includes(id)) {
+          favs = favs.filter(f => f !== id);
+          icon.textContent = "♡";
+        } else {
+          favs.push(id);
+          icon.textContent = "♥";
+        }
+
+        localStorage.setItem("favoritos", JSON.stringify(favs));
+      });
+    });
+  });
+</script>

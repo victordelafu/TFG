@@ -16,7 +16,12 @@ body {
   height: 100%;
   background-color: #fffefe;
 }
-
+@font-face {
+  font-family: 'Rubik';
+  src: url('/Front/public/Rubik/static/Rubik-LightItalic.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+}
 html {
   font-family: 'Inter', system-ui, sans-serif;
   scrollbar-width: auto;

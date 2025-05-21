@@ -3,9 +3,10 @@ const itemStyles =
     'p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer'
 import { Image } from 'astro:assets'
 import Logo from '../assets/PosibleLogo.png'
+import Registro from './Registro.astro'
 ---
 
-<nav class="z-50 fixed top-0 right-0 left-0 p-6 bg-primary">
+<nav class="z-50 fixed top-0 right-0 left-0 p-6 bg-accent">
     <div class="md:grid md:grid-cols-3 items-center text-white">
         <!-- Primera columna - Menu izquierdo -->
         <ul class="hidden md:flex justify-end gap-4">
@@ -21,6 +22,13 @@ import Logo from '../assets/PosibleLogo.png'
                     class={itemStyles}
                     href="/Patron/Index"
                     >Patron</a
+                >
+            </li>
+            <li>
+                <a
+                    class={itemStyles}
+                    href="/Cliente/Favoritos"
+                    >Favoritos</a
                 >
             </li>
         </ul>

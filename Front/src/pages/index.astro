@@ -3,13 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import Prueba from '../components/Prueba.astro'
 import BoatCard from '../components/BoatCard.astro';
 import Registro from '../components/Registro.astro';
+import ListaDeBarcos from '../components/ListaDeBarcos.astro';
 ---
 
 <Layout>
 	        <!-- ---------------------- HERO SECTION ------------------------ -->
         <section>
-            <div class="relative w-full pb-10 min-h-2/5 pt-10 bg-primary">
-                <h1 class="text-white text-5xl text-center mb-10"
+            <div class="relative w-full pb-10 min-h-2/5 pt-10 bg-accent">
+                <h1 class="text-white text-5xl text-center mb-10 font-rubik"
                     >Todos tus sueños se hacen realidad navegando</h1
                 >
                 <h2 class="text-2xl md:text-3xl text-white text-center"></h2>
@@ -58,13 +59,7 @@ import Registro from '../components/Registro.astro';
         <section class="max-w-6xl mx-auto px-4 py-10">
             <div>
                 
-				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="boatCard">
-					<BoatCard></BoatCard>
-                    <BoatCard></BoatCard>
-                    <BoatCard></BoatCard>
-                    <BoatCard></BoatCard>
-                    <BoatCard></BoatCard>
-				</div>
+				    <ListaDeBarcos/>
                 <div class="text-center mt-10">
                     <button
                       type="button"
@@ -100,6 +95,6 @@ import Registro from '../components/Registro.astro';
 }
 
 .custom-shape-divider-bottom-1746466429 .shape-fill {
-    fill: #FEFEFE;
+    fill: #a2d4df;
 }
 </style>

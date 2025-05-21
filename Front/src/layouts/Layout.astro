@@ -15,6 +15,8 @@ import Footer from "../components/Footer.astro";
 		<link rel="icon" type="image/svg+xml" href="../../public/Logo.JPG" />
 		<meta name="generator" content={Astro.generator} />
 		<title>MovilShip</title>
+		<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+
 	</head>
 	<body>
 		<Header/>
@@ -33,6 +35,10 @@ import Footer from "../components/Footer.astro";
 		margin: 0;
 		width: 100%;
 		height: 100%;
+		/* background-image: url(https://saludsinbulos.com/wp-content/uploads/2019/08/agua-de-mar-superemedio.jpg);
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center; */
 	}
 </style>
 
@@ -100,7 +106,7 @@ import Footer from "../components/Footer.astro";
 		  localStorage.setItem('rol', userData.rol);
 		  localStorage.setItem('usuarioId', userData.id);
   
-		  loginMensaje.textContent = "Inicio de sesión exitoso ✅";
+		  loginMensaje.textContent = "Inicio de sesión exitoso";
 		  loginMensaje.classList.remove('text-red-600');
 		  loginMensaje.classList.add('text-green-600');
   
