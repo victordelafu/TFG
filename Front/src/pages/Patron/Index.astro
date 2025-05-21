@@ -1,0 +1,91 @@
+---
+import Layout from "../../layouts/PatronLayout.astro";
+---
+<Layout>
+    <section class="max-w-6xl mx-auto px-4 py-10 pt-[6.5rem]">
+        <h1 class="text-3xl font-bold mb-6">Mis barcos publicados</h1>
+        <div id="mis-barcos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </section>
+    
+      <div id="modal-editar" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg w-full max-w-md relative">
+          <button class="absolute top-2 right-3 text-xl" onclick="document.getElementById('modal-editar').classList.add('hidden')">✕</button>
+          <h2 class="text-2xl font-bold mb-4">Editar barco</h2>
+          <form id="form-editar" class="space-y-4">
+            <input type="hidden" name="id" />
+            <input type="text" name="nombre" placeholder="Nombre" required class="w-full border px-4 py-2 rounded" />
+            <textarea name="descripcion" placeholder="Descripción" required class="w-full border px-4 py-2 rounded"></textarea>
+            <input type="number" name="precio" placeholder="Precio" required class="w-full border px-4 py-2 rounded" />
+            <input type="url" name="imagen" placeholder="URL de imagen" required class="w-full border px-4 py-2 rounded" />
+            <button type="submit" class="bg-accent text-white px-6 py-2 rounded hover:bg-alternative">Guardar cambios</button>
+          </form>
+        </div>
+      </div>
+    
+      <script type="module">
+        document.addEventListener("DOMContentLoaded", () => {
+          const usuario = localStorage.getItem("usuario");
+          const barcos = JSON.parse(localStorage.getItem("barcos") || "[]");
+          const contenedor = document.getElementById("mis-barcos");
+          const formEditar = document.getElementById("form-editar");
+          const modal = document.getElementById("modal-editar");
+    
+          const mios = barcos.filter(b => b.publicadoPor === usuario);
+    
+          if (mios.length === 0) {
+            contenedor.innerHTML = "<p class='text-gray-600'>No has publicado ningún barco aún.</p>";
+            return;
+          }
+    
+          contenedor.innerHTML = mios.map(b => `
+            <div class="relative bg-white rounded-xl shadow overflow-hidden">
+              <img src="${b.imagen}" alt="${b.nombre}" class="w-full h-48 object-cover" />
+              <div class="p-4">
+                <h2 class="text-lg font-bold">${b.nombre}</h2>
+                <p class="text-gray-600 text-sm mb-2">€${b.precio}/día</p>
+                <div class="flex justify-between">
+                  <button class="text-accent hover:underline" onclick="editarBarco('${b.id}')"> Editar</button>
+                  <button class="text-red-600 hover:underline" onclick="eliminarBarco('${b.id}')"> Eliminar</button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+    
+          window.editarBarco = (id) => {
+            const barco = barcos.find(b => b.id === id);
+            if (!barco) return;
+    
+            formEditar.nombre.value = barco.nombre;
+            formEditar.descripcion.value = barco.descripcion;
+            formEditar.precio.value = barco.precio;
+            formEditar.imagen.value = barco.imagen;
+            formEditar.id.value = barco.id;
+            modal.classList.remove("hidden");
+          };
+    
+          formEditar.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const datos = Object.fromEntries(new FormData(formEditar).entries());
+            const index = barcos.findIndex(b => b.id === datos.id);
+            if (index === -1) return;
+    
+            barcos[index] = {
+              ...barcos[index],
+              ...datos
+            };
+            localStorage.setItem("barcos", JSON.stringify(barcos));
+            modal.classList.add("hidden");
+            location.reload(); // Recargar para ver los cambios
+          });
+    
+          window.eliminarBarco = (id) => {
+            const confirmado = confirm("¿Estás seguro de eliminar este barco?");
+            if (!confirmado) return;
+    
+            const nuevos = barcos.filter(b => b.id !== id);
+            localStorage.setItem("barcos", JSON.stringify(nuevos));
+            location.reload();
+          };
+        });
+      </script> 
+</Layout>

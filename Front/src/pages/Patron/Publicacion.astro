@@ -1,0 +1,49 @@
+---
+import PatronLayout from '../../layouts/PatronLayout.astro';
+---
+
+<PatronLayout>
+  <section class="max-w-xl mx-auto px-4 py-10 pt-[6.5rem]">
+    <h1 class="text-3xl font-bold mb-6">Publicar nuevo barco</h1>
+
+    <form id="form-barco" class="space-y-4">
+      <input type="text" name="nombre" placeholder="Nombre del barco" required class="w-full border px-4 py-2 rounded" />
+      <textarea name="descripcion" placeholder="Descripción" required class="w-full border px-4 py-2 rounded"></textarea>
+      <input type="number" name="precio" placeholder="Precio por día (€)" required class="w-full border px-4 py-2 rounded" />
+      <input type="url" name="imagen" placeholder="URL de imagen" required class="w-full border px-4 py-2 rounded" />
+
+      <button type="submit" class="bg-accent text-white px-6 py-2 rounded hover:bg-alternative">
+        Publicar
+      </button>
+    </form>
+
+    <p id="mensaje" class="mt-4 text-green-600 font-semibold hidden">Se ha publicado el barco</p>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('form-barco');
+      const mensaje = document.getElementById('mensaje');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const datos = Object.fromEntries(new FormData(form).entries());
+        const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+
+        const usuario = localStorage.getItem("usuario"); // por ejemplo, email o ID
+        const nuevo = {
+            id: Date.now().toString(),
+            ...datos,
+            publicadoPor: usuario
+            };
+
+        barcos.push(nuevo);
+        localStorage.setItem('barcos', JSON.stringify(barcos));
+
+        form.reset();
+        mensaje.classList.remove('hidden');
+      });
+    });
+  </script>
+</PatronLayout>
