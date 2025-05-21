@@ -26,16 +26,23 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
     }
 
     if (!barcosAMostrar.length) {
-  rootDiv.innerHTML = `
-    <div id="sin-favoritos" class="text-center text-gray-600 mt-10">
-      <p class="text-xl">No tienes barcos en favoritos todavía.</p>
-      <a href="/Cliente/Index" class="text-accent underline hover:text-alternative mt-2 inline-block">
-        Ver barcos disponibles →
-      </a>
-    </div>
-  `;
+  if (mostrarFavoritos) {
+    rootDiv.innerHTML = `
+      <div id="sin-favoritos" class="text-center text-gray-600 mt-10">
+        <p class="text-xl">No tienes barcos en favoritos todavía.</p>
+        <a href="/Cliente/Index" class="text-accent underline hover:text-alternative mt-2 inline-block">
+          Ver barcos disponibles →
+        </a>
+      </div>
+    `;
+  } else {
+    rootDiv.innerHTML = `
+      <p class="text-center text-gray-600 mt-10">Todavia no hay barcos.</p>
+    `;
+  }
   return;
 }
+
 
 
     rootDiv.innerHTML = barcosAMostrar.map(b => `

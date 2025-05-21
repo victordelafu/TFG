@@ -3,6 +3,7 @@
 import Layout from "../../layouts/ClienteLayout.astro";
 import BoatCard from '../../components/BoatCard.astro';
 import Filter from '../../components/Filter.astro';
+import ListaDeBarcos from "../../components/ListaDeBarcos.astro";
 ---
 
  <Layout>
@@ -12,63 +13,8 @@ import Filter from '../../components/Filter.astro';
     <!-- <Filter/> -->
 
     <div id="barco-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <ListaDeBarcos/>
   </section>
-  <script type="module">
-    document.addEventListener("DOMContentLoaded", () => {
-      const barcos = JSON.parse(localStorage.getItem("barcos") || "[]");
-      const contenedor = document.getElementById("barco-grid");
   
-      if (barcos.length === 0) {
-        contenedor.innerHTML = "<p class='text-gray-600'>No hay barcos disponibles todavía.</p>";
-        return;
-      }
-  
-      contenedor.innerHTML = barcos.map(b => `
-        <div class="relative boat-card" data-id="${b.id}">
-          <a href="/Barcos/${b.id}" class="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
-            <img src="${b.imagen}" alt="${b.nombre}" class="w-full h-48 object-cover" />
-            <div class="p-4">
-              <h2 class="text-lg font-bold">${b.nombre}</h2>
-              <p class="text-primary font-semibold">€${b.precio}/día</p>
-            </div>
-          </a>
-  
-          <button
-            type="button"
-            class="absolute top-2 right-2 bg-white bg-opacity-80 p-2 rounded-full shadow hover:bg-opacity-100 transition text-xl"
-            data-id="${b.id}"
-          >
-            <span class="icon-fav">♡</span>
-          </button>
-        </div>
-      `).join('');
-  
-      
-      const favoritos = JSON.parse(localStorage.getItem("favoritos") || "[]");
-      document.querySelectorAll(".boat-card").forEach(card => {
-        const id = card.dataset.id;
-        const icon = card.querySelector(".icon-fav");
-  
-        if (favoritos.includes(id)) {
-          icon.textContent = "♥";
-        }
-  
-        card.querySelector("button")?.addEventListener("click", (e) => {
-          e.preventDefault();
-          let favs = JSON.parse(localStorage.getItem("favoritos") || "[]");
-  
-          if (favs.includes(id)) {
-            favs = favs.filter(f => f !== id);
-            icon.textContent = "♡";
-          } else {
-            favs.push(id);
-            icon.textContent = "♥";
-          }
-  
-          localStorage.setItem("favoritos", JSON.stringify(favs));
-        });
-      });
-    });
-  </script>
   
 </Layout>

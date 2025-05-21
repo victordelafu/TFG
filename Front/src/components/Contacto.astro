@@ -1,0 +1,52 @@
+<section class="max-w-2xl mx-auto px-4 py-12">
+    <h2 class="text-3xl font-bold mb-6 text-center">Contacto / Reportar incidencia</h2>
+  
+    <form id="form-contacto" class="space-y-6 bg-white shadow p-6 rounded-lg">
+      <div>
+        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input type="text" name="nombre" id="nombre" required class="mt-1 w-full border border-gray-300 px-4 py-2 rounded" />
+      </div>
+  
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+        <input type="email" name="email" id="email" required class="mt-1 w-full border border-gray-300 px-4 py-2 rounded" />
+      </div>
+  
+      <div>
+        <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje</label>
+        <textarea name="mensaje" id="mensaje" rows="5" required class="mt-1 w-full border border-gray-300 px-4 py-2 rounded resize-none"></textarea>
+      </div>
+  
+      <button type="submit" class="bg-accent text-white px-6 py-2 rounded hover:bg-alternative w-full">
+        Enviar
+      </button>
+  
+      <p id="mensaje-confirmacion" class="text-green-600 font-semibold mt-4 hidden text-center">
+        ✅ Incidencia enviada correctamente.
+      </p>
+    </form>
+  </section>
+  
+  <script type="module">
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("form-contacto");
+      const mensaje = document.getElementById("mensaje-confirmacion");
+  
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+  
+        const datos = Object.fromEntries(new FormData(form).entries());
+  
+        const incidencias = JSON.parse(localStorage.getItem("incidencias") || "[]");
+        incidencias.push({
+          ...datos,
+          fecha: new Date().toISOString()
+        });
+        localStorage.setItem("incidencias", JSON.stringify(incidencias));
+  
+        form.reset();
+        mensaje.classList.remove("hidden");
+      });
+    });
+  </script>
+  
