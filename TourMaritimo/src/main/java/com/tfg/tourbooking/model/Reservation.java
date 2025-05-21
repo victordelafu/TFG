@@ -17,6 +17,9 @@ public class Reservation {
 
     private LocalDate reservationDate;
 
+    @Lob
+    private String descripcion;
+
     // Getters y setters
     public Long getId() {
         return id;
@@ -48,5 +51,13 @@ public class Reservation {
 
     public void setReservationDate(LocalDate reservationDate) {
         this.reservationDate = reservationDate;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
