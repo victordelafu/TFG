@@ -43,7 +43,7 @@ import Filter from '../../components/Filter.astro';
         </div>
       `).join('');
   
-      // Manejo de favoritos
+      
       const favoritos = JSON.parse(localStorage.getItem("favoritos") || "[]");
       document.querySelectorAll(".boat-card").forEach(card => {
         const id = card.dataset.id;
