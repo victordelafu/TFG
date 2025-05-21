@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TourBookingApplication",
+            "request": "launch",
+            "mainClass": "com.tfg.tourbooking.TourBookingApplication",
+            "projectName": "boatShip"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-TourBookingApplication<TourMaritimo>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
