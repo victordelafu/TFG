@@ -47,7 +47,7 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
             <p class="text-primary font-semibold">€${b.precio}/día</p>
           </div>
         </a>
-        <button type="button" class="absolute top-2 right-2   hover:bg-opacity-100 transition text-xl" data-id="${b.id}">
+        <button type="button" class="absolute bottom-2 right-2   hover:bg-opacity-100 transition text-xl" data-id="${b.id}">
           <span class="icon-fav">♡</span>
         </button>
       </div>
