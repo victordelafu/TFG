@@ -2,7 +2,11 @@
 package com.tfg.tourbooking.model;
 
 // Importaciones necesarias para el mapeo JPA (Jakarta Persistence API)
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 // Anotación que indica que esta clase es una entidad JPA (corresponde a una tabla en la base de datos)
 @Entity
@@ -17,6 +21,7 @@ public class User {
     private String name;
 
     // Correo electrónico del usuario (debe ser único idealmente)
+    @Column(unique = true)
     private String email;
 
     // Contraseña del usuario (debería estar cifrada al guardarse)
