@@ -1,11 +1,10 @@
 ---
 import "../styles/global.css";
-import Header from "../components/Header.astro"
+import Header from "../components/Header.astro";
 import Registro from "../components/Registro.astro";
 import Login from "../components/Login.astro";
 import Footer from "../components/Footer.astro";
 ---
-
 
 <!doctype html>
 <html lang="es">
@@ -15,17 +14,19 @@ import Footer from "../components/Footer.astro";
 		<link rel="icon" type="image/svg+xml" href="../../public/Logo.JPG" />
 		<meta name="generator" content={Astro.generator} />
 		<title>MovilShip</title>
-		<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
-
+		<link
+			href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
-		<Header/>
-		<Registro/>
-		<Login/>
+		<Header />
+		<Registro />
+		<Login />
 		<main>
 			<slot />
 		</main>
-		<Footer></Footer>
+		<Footer />
 	</body>
 </html>
 
@@ -42,7 +43,9 @@ import Footer from "../components/Footer.astro";
 	}
 </style>
 
-<script>
+<script src="/scripts/auth.js" is:inline></script>
+
+<!-- <script>
 	const form = document.getElementById('form-registro');
 	const mensaje = document.getElementById('registro-mensaje');
   
@@ -79,9 +82,9 @@ import Footer from "../components/Footer.astro";
 		mensaje.textContent = "Error de red o del servidor";
 	  }
 	});
-  </script>
-  
-  <script>
+  </script> -->
+
+<!-- <script>
 	const formLogin = document.getElementById('form-login');
 	const loginMensaje = document.getElementById('login-mensaje');
   
@@ -128,5 +131,4 @@ import Footer from "../components/Footer.astro";
 		loginMensaje.textContent = "Error de red o del servidor";
 	  }
 	});
-  </script>
-  
+  </script> -->
