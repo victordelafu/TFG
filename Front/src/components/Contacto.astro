@@ -1,52 +1,80 @@
-<section class="max-w-2xl mx-auto px-4 py-12">
-    <h2 class="text-3xl font-bold mb-6 text-center">Contacto / Reportar incidencia</h2>
-  
-    <form id="form-contacto" class="space-y-6 bg-white shadow p-6 rounded-lg">
+<section class="max-w-2xl mx-auto px-6 py-16 pt-[6.5rem]">
+  <div class="bg-white rounded-2xl ">
+    <h2 class="text-4xl font-extrabold text-center text-gray-800 mb-8"> Contacto</h2>
+
+    <form id="form-contacto" class="space-y-6">
       <div>
-        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
-        <input type="text" name="nombre" id="nombre" required class="mt-1 w-full border border-gray-300 px-4 py-2 rounded" />
+        <label for="nombre" class="block text-sm font-semibold text-gray-700 mb-1">Nombre completo</label>
+        <input
+          type="text"
+          name="nombre"
+          id="nombre"
+          required
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+          placeholder="Tu nombre"
+        />
       </div>
-  
+
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-        <input type="email" name="email" id="email" required class="mt-1 w-full border border-gray-300 px-4 py-2 rounded" />
+        <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Correo electrónico</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          required
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+          placeholder="ejemplo@correo.com"
+        />
       </div>
-  
+
       <div>
-        <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje</label>
-        <textarea name="mensaje" id="mensaje" rows="5" required class="mt-1 w-full border border-gray-300 px-4 py-2 rounded resize-none"></textarea>
+        <label for="mensaje" class="block text-sm font-semibold text-gray-700 mb-1">Mensaje</label>
+        <textarea
+          name="mensaje"
+          id="mensaje"
+          rows="5"
+          required
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent resize-none"
+          placeholder="Describe brevemente tu problema o sugerencia"
+        ></textarea>
       </div>
-  
-      <button type="submit" class="bg-accent text-white px-6 py-2 rounded hover:bg-alternative w-full">
-        Enviar
+
+      <button
+        type="submit"
+        class="w-full bg-accent text-white text-lg py-3 rounded-lg hover:bg-alternative transition font-medium shadow"
+      >
+        Enviar mensaje
       </button>
-  
-      <p id="mensaje-confirmacion" class="text-green-600 font-semibold mt-4 hidden text-center">
+
+      <p
+        id="mensaje-confirmacion"
+        class="text-green-600 font-semibold mt-4 hidden text-center"
+      >
         ✅ Incidencia enviada correctamente.
       </p>
     </form>
-  </section>
-  
-  <script type="module">
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("form-contacto");
-      const mensaje = document.getElementById("mensaje-confirmacion");
-  
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-  
-        const datos = Object.fromEntries(new FormData(form).entries());
-  
-        const incidencias = JSON.parse(localStorage.getItem("incidencias") || "[]");
-        incidencias.push({
-          ...datos,
-          fecha: new Date().toISOString()
-        });
-        localStorage.setItem("incidencias", JSON.stringify(incidencias));
-  
-        form.reset();
-        mensaje.classList.remove("hidden");
+  </div>
+</section>
+
+<script type="module">
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("form-contacto");
+    const mensaje = document.getElementById("mensaje-confirmacion");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const datos = Object.fromEntries(new FormData(form).entries());
+
+      const incidencias = JSON.parse(localStorage.getItem("incidencias") || "[]");
+      incidencias.push({
+        ...datos,
+        fecha: new Date().toISOString()
       });
+      localStorage.setItem("incidencias", JSON.stringify(incidencias));
+
+      form.reset();
+      mensaje.classList.remove("hidden");
     });
-  </script>
-  
+  });
+</script>
