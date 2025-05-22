@@ -1,6 +1,5 @@
 ---
 import Layout from '../../layouts/ClienteLayout.astro';
-
 ---
 
 <Layout>
@@ -10,7 +9,7 @@ import Layout from '../../layouts/ClienteLayout.astro';
 
   <script type="module">
     document.addEventListener("DOMContentLoaded", () => {
-      const id = window.location.pathname.split("/").pop();
+      const id = new URLSearchParams(window.location.search).get("id");
       const barcos = JSON.parse(localStorage.getItem("barcos") || "[]");
       const barco = barcos.find(b => b.id === id);
       const contenedor = document.getElementById("detalle-barco");

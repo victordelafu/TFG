@@ -47,7 +47,7 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
 
     rootDiv.innerHTML = barcosAMostrar.map(b => `
       <div class="relative boat-card" data-id="${b.id}">
-        <a href="/Barcos/${b.id}" class="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+        <a href="/Barcos/Informacion?id=${b.id}" class="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
           <img src="${b.imagen}" alt="${b.nombre}" class="w-full h-48 object-cover" />
           <div class="p-4">
             <h2 class="text-lg font-bold">${b.nombre}</h2>
