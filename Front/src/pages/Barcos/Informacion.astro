@@ -26,21 +26,34 @@ import Layout from '../../layouts/ClienteLayout.astro';
         return;
       }
 
-      // Generar HTML para los extras como badges
       const extrasHtml = Array.isArray(barco.extras) && barco.extras.length > 0
         ? `<div class="flex flex-wrap gap-2 mt-2">
              ${barco.extras.map(extra => `<span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">${extra}</span>`).join("")}
            </div>`
         : `<p class="text-sm text-gray-500">No se han especificado extras.</p>`;
 
-      contenedor.innerHTML = `
-        <div class="relative">
-          <img src="${barco.imagen}" alt="${barco.nombre}" class="w-full h-[400px] object-cover" />
-          <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-white p-6">${barco.nombre}</h1>
-          </div>
-        </div>
+      const wrapper = document.createElement("div");
+      wrapper.className = "relative";
 
+      const img = document.createElement("img");
+      img.src = barco.imagen?.startsWith("data:image") || barco.imagen?.startsWith("http")
+        ? barco.imagen
+        : "https://via.placeholder.com/800x400?text=Sin+imagen";
+
+      img.alt = barco.nombre;
+      img.className = "w-full h-[400px] object-cover";
+
+      const overlay = document.createElement("div");
+      overlay.className = "absolute inset-0 flex items-end";
+      overlay.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+      overlay.innerHTML = `<h1 class="text-4xl md:text-5xl font-extrabold text-white p-6">${barco.nombre}</h1>`;
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(overlay);
+      contenedor.innerHTML = "";
+      contenedor.appendChild(wrapper);
+
+      contenedor.innerHTML += `
         <div class="p-8 md:p-10 grid md:grid-cols-2 gap-8">
           <div>
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Descripción</h2>
