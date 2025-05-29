@@ -1,92 +1,100 @@
 ---
-const itemStyles =
-    'p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer'
-import { Image } from 'astro:assets'
-import Logo from '../assets/PosibleLogo.png'
-import Registro from './Registro.astro'
+import { Image } from 'astro:assets';
+import Logo from '../assets/PosibleLogo.png';
+
+const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer';
 ---
 
 <nav class="z-50 fixed top-0 right-0 left-0 p-6 bg-accent">
-    <div class="md:grid md:grid-cols-3 items-center text-white">
-        <!-- Primera columna - Menu izquierdo -->
-        <ul class="hidden md:flex justify-end gap-4">
-            <li>
-                <a
-                    class="text-accent"
-                    href="/Cliente/Index"
-                    >Cliente</a
-                >
-            </li>
-            <li>
-                <a
-                    class="text-accent"
-                    href="/Patron/Index"
-                    >Patron</a
-                >
-            </li>
-            <li>
-                <a
-                    class={itemStyles}
-                    href="/Cliente/Favoritos"
-                    >Favoritos</a
-                >
-            </li>
-        </ul>
+  <div class="md:grid md:grid-cols-3 items-center text-white">
+    <!-- Menú izquierdo según rol -->
+    <ul id="menu-izquierdo" class="hidden md:flex justify-end gap-4"></ul>
 
-        <!-- Segunda columna - Logo -->
-        <div class="flex justify-center">
-            <a href="/">
-				<Image
-                    src={Logo}
-                    height="100"
-                    width="241"
-                    alt="Movilship"
-                    class="h-24 object-contain"
-                    format="avif"
-                />
-
-            </a>
-        </div>
-
-        <!-- Tercera columna - Menu derecho -->
-        <ul class="hidden md:flex justify-start gap-4 items-center">
-            <li>
-                <a
-                    class={itemStyles}
-                    href="/Contacto"
-                    >Contacto</a
-                >
-            </li>
-            <li class="relative group" role="menu">
-                <a
-                    class="p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer inline-flex items-center gap-1 focus:outline-none"
-                    href="#"
-                    >Mi cuenta
-                    <svg
-                            class="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </a>
-                    <ul class="absolute mt-2 hidden group-hover:flex flex-col bg-white text-black rounded-xl shadow-xl w-48 z-50">
-                       <li>
-                        <a href="#" onclick="document.getElementById('modal-login').classList.remove('hidden')" class="block px-4 py-2 text-sm hover:bg-sky-100">
-                            Iniciar sesión
-                        </a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="document.getElementById('modal-registro').classList.remove('hidden')" class="block px-4 py-2 text-sm hover:bg-sky-100" class="block px-4 py-2 text-sm hover:bg-sky-100">
-                                Registrarse
-                            </a>
-                        </li>
-                    </ul>
-            </li>
-        </ul>
+    <!-- Logo centrado -->
+    <div class="flex justify-center">
+      <a href="/">
+        <Image src={Logo} height="1000" width="1000" alt="Movilship" class="h-24 object-contain" format="avif" />
+      </a>
     </div>
-</nav>
-<div class="h-[6.5rem] bg-primary"><!-- Espaciador para compensar el header fijo --></div>
 
+    <!-- Menú derecho -->
+    <ul id="menu-derecho" class="hidden md:flex justify-start gap-4 items-center"></ul>
+  </div>
+</nav>
+
+<div class="h-[6.5rem]"></div> <!-- Espaciador -->
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("usuario"));
+    const rol = user?.role;
+    const menuIzquierdo = document.getElementById("menu-izquierdo");
+    const menuDerecho = document.getElementById("menu-derecho");
+
+    console.log("Usuario cargado en header:", user);
+    console.log("Rol:", rol);
+
+    const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer';
+    const crearItem = (href, texto) => `<li><a class="${itemStyles}" href="${href}">${texto}</a></li>`;
+
+    // Menú según rol
+    let items = [];
+    if (rol === "CLIENTE") {
+      items = [
+        { href: "/Cliente/Index", text: "Barcos" },
+        { href: "/Cliente/Favoritos", text: "Favoritos" },
+        { href: "/Cliente/Reservas", text: "Reservas" }
+      ];
+    } else if (rol === "PATRON") {
+      items = [
+        { href: "/Patron/Solicitudes", text: "Solicitudes" },
+        { href: "/Patron/Index", text: "Mis publicaciones" },
+        { href: "/Patron/Publicacion", text: "Añadir publicación" }
+      ];
+    }
+    menuIzquierdo.innerHTML = items.map(item => crearItem(item.href, item.text)).join("");
+
+    // Menú derecho
+    const contacto = crearItem('/Contacto', 'Contacto');
+    let cuentaHTML = '';
+
+    if (user) {
+      cuentaHTML = `
+        <li class="relative group">
+          <a class="${itemStyles} inline-flex items-center gap-1" href="#">
+            Mi cuenta
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+          <ul class="absolute mt-2 hidden group-hover:flex flex-col bg-white text-black rounded-xl shadow-xl w-48 z-50">
+            <li><a href="#" class="block px-4 py-2 text-sm hover:bg-sky-100">Configuración</a></li>
+            <li><a href="#" id="cerrar-sesion" class="block px-4 py-2 text-sm hover:bg-sky-100">Cerrar sesión</a></li>
+            <li><a href="#" class="block px-4 py-2 text-sm hover:bg-sky-100">Eliminar cuenta</a></li>
+          </ul>
+        </li>
+      `;
+    } else {
+      cuentaHTML = `<li><a href="#" id="open-login" class="${itemStyles}">Iniciar sesión</a></li>`;
+    }
+
+    menuDerecho.innerHTML = contacto + cuentaHTML;
+
+    // Cerrar sesión
+    document.getElementById("cerrar-sesion")?.addEventListener("click", () => {
+      localStorage.removeItem("usuario");
+      localStorage.removeItem("rol");
+      location.href = "/";
+    });
+
+    // Abrir login modal
+    document.getElementById("open-login")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const modal = document.getElementById("modal-login");
+      if (modal) modal.classList.remove("hidden");
+    });
+  });
+</script>
+
+<!-- IMPORTANTE: asegúrate de que auth-init.js NO intenta importar nada si no es módulo -->
+<script type="module" src="/scripts/auth-init.js"></script>
