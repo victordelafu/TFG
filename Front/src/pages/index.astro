@@ -76,6 +76,18 @@ import ListaDeBarcos from '../components/ListaDeBarcos.astro';
         <!-- ------------------------------------------------------------------------ -->
 
     </main>
+    <script is:inline>
+        document.addEventListener("DOMContentLoaded", () => {
+          const user = JSON.parse(localStorage.getItem("usuario"));
+          const rol = user?.role;
+    
+          if (rol === "CLIENTE") {
+            window.location.href = "/Cliente/Index";
+          } else if (rol === "PATRON") {
+            window.location.href = "/Patron/Index";
+          }
+        });
+      </script>
 </Layout>
 <style>
 .custom-shape-divider-bottom-1746466429 {

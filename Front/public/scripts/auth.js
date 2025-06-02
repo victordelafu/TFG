@@ -1,7 +1,8 @@
-const API_BASE_URL = 'http://localhost:8080/api'function redirigirPorRol(rol) {
-  if (rol === 'CLIENTE') {
+const API_BASE_URL = 'http://localhost:8080/api'
+function redirigirPorRol(rol) {
+  if (rol === 'cliente') {
     window.location.href = '/Cliente/Index'
-  } else if (rol === 'PATRON') {
+  } else if (rol === 'patron') {
     window.location.href = '/Patron/Index'
   } else {
     window.location.href = '/'
