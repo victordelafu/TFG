@@ -7,17 +7,14 @@ const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underlin
 
 <nav class="z-50 fixed top-0 right-0 left-0 p-6 bg-accent">
   <div class="md:grid md:grid-cols-3 items-center text-white">
-    <!-- Menú izquierdo según rol -->
     <ul id="menu-izquierdo" class="hidden md:flex justify-end gap-4"></ul>
 
-    <!-- Logo centrado -->
     <div class="flex justify-center">
       <a href="/">
         <Image src={Logo} height="1000" width="1000" alt="Movilship" class="h-24 object-contain" format="avif" />
       </a>
     </div>
 
-    <!-- Menú derecho -->
     <ul id="menu-derecho" class="hidden md:flex justify-start gap-4 items-center"></ul>
   </div>
 </nav>
@@ -30,9 +27,6 @@ const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underlin
     const rol = user?.role;
     const menuIzquierdo = document.getElementById("menu-izquierdo");
     const menuDerecho = document.getElementById("menu-derecho");
-
-    console.log("Usuario cargado en header:", user);
-    console.log("Rol:", rol);
 
     const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer';
     const crearItem = (href, texto) => `<li><a class="${itemStyles}" href="${href}">${texto}</a></li>`;
@@ -54,7 +48,6 @@ const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underlin
     }
     menuIzquierdo.innerHTML = items.map(item => crearItem(item.href, item.text)).join("");
 
-    // Menú derecho
     const contacto = crearItem('/Contacto', 'Contacto');
     let cuentaHTML = '';
 
@@ -79,14 +72,12 @@ const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underlin
 
     menuDerecho.innerHTML = contacto + cuentaHTML;
 
-    // Cerrar sesión
     document.getElementById("cerrar-sesion")?.addEventListener("click", () => {
       localStorage.removeItem("usuario");
       localStorage.removeItem("rol");
       location.href = "/";
     });
 
-    // Abrir login modal
     document.getElementById("open-login")?.addEventListener("click", (e) => {
       e.preventDefault();
       const modal = document.getElementById("modal-login");
@@ -95,5 +86,4 @@ const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underlin
   });
 </script>
 
-<!-- IMPORTANTE: asegúrate de que auth-init.js NO intenta importar nada si no es módulo -->
 <script type="module" src="/scripts/auth-init.js"></script>
