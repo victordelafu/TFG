@@ -23,7 +23,7 @@ import PatronLayout from '../../layouts/PatronLayout.astro';
       if (solicitudes.length === 0) {
         contenedor.innerHTML = `
           <div class="col-span-full text-center text-gray-500 text-lg mt-12">
-            <p>No tienes solicitudes por revisar.</p>
+            <p>No tienes solicitudes pendientes.</p>
             <a href="/Patron/Index" class="text-accent hover:underline text-sm mt-2 inline-block">← Volver a mis publicaciones</a>
           </div>
         `;
@@ -47,7 +47,7 @@ import PatronLayout from '../../layouts/PatronLayout.astro';
               <div class="flex justify-between items-start mb-4">
                 <div>
                   <h2 class="text-xl font-bold text-primary mb-1">${tour?.nombre || "Tour desconocido"}</h2>
-                  <p class="text-sm text-gray-500">${tour?.fecha} a las ${tour?.hora}</p>
+                  <p class="text-sm text-gray-500">${new Date(tour?.fecha).toLocaleDateString("es-ES")} a las ${tour?.hora}</p>
                 </div>
                 <span class="px-3 py-1 rounded-full text-sm font-medium ${estadoColor[r.estado]}">${r.estado}</span>
               </div>

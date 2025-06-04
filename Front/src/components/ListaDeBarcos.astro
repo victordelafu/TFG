@@ -37,7 +37,7 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
             <img src="${t.imagen}" alt="${t.nombre}" class="w-full h-48 object-cover" />
             <div class="p-4">
               <h2 class="text-lg font-bold">${t.nombre}</h2>
-              <p class="text-gray-600 text-sm">${t.puerto} – ${t.fecha} ${t.hora}</p>
+              <p class="text-gray-600 text-sm">${t.puerto} – ${new Date(t.fecha).toLocaleDateString("es-ES")} ${t.hora}</p>
               <p class="text-primary font-semibold">€${t.precio}/persona</p>
             </div>
           </a>
@@ -73,7 +73,6 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
       });
     };
 
-    // Mostrar tours favoritos o todos inicialmente
     let toursAMostrar = todosLosTours;
     if (mostrarFavoritos) {
       const favoritos = JSON.parse(localStorage.getItem("favoritos_tours") || "[]");
@@ -82,7 +81,6 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
 
     renderizar(toursAMostrar);
 
-    // Filtro: escucha el evento del componente Filter.astro
     window.addEventListener("filtros-aplicados", (e) => {
       const { Puerto, precioMax, fecha } = e.detail;
       let filtrados = todosLosTours;
@@ -91,7 +89,6 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
       if (precioMax) filtrados = filtrados.filter(t => parseFloat(t.precio) <= parseFloat(precioMax));
       if (fecha) filtrados = filtrados.filter(t => t.fecha === fecha);
 
-      // Si está en favoritos, aplicar también ese filtro
       if (mostrarFavoritos) {
         const favoritos = JSON.parse(localStorage.getItem("favoritos_tours") || "[]");
         filtrados = filtrados.filter(t => favoritos.includes(t.id));
