@@ -1,5 +1,5 @@
 ---
-const idContenedor = Astro.props.id ?? "barco-grid";
+const idContenedor = Astro.props.id ?? "tour-grid";
 const mostrarFavoritos = Astro.props.favoritos ?? false;
 ---
 
@@ -16,52 +16,45 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
     if (!rootDiv) return;
 
     const mostrarFavoritos = rootDiv.dataset.favoritos === "true";
-    const barcos = JSON.parse(localStorage.getItem("barcos") || "[]");
+    const tours = JSON.parse(localStorage.getItem("tours") || "[]");
 
-    let barcosAMostrar = barcos;
+    let toursAMostrar = tours;
 
     if (mostrarFavoritos) {
-      const favoritos = JSON.parse(localStorage.getItem("favoritos") || "[]");
-      barcosAMostrar = barcos.filter(b => favoritos.includes(b.id));
+      const favoritos = JSON.parse(localStorage.getItem("favoritos_tours") || "[]");
+      toursAMostrar = tours.filter(t => favoritos.includes(t.id));
     }
 
-    if (!barcosAMostrar.length) {
-  if (mostrarFavoritos) {
-    rootDiv.innerHTML = `
-      <div id="sin-favoritos" class="text-center text-gray-600 mt-10">
-        <p class="text-xl">No tienes barcos en favoritos todavía.</p>
-        <a href="/Cliente/Index" class="text-accent underline hover:text-alternative mt-2 inline-block">
-          Ver barcos disponibles →
-        </a>
-      </div>
-    `;
-  } else {
-    rootDiv.innerHTML = `
-      <p class="text-center text-gray-600 mt-10">Todavia no hay barcos.</p>
-    `;
-  }
-  return;
-}
+    if (!toursAMostrar.length) {
+      rootDiv.innerHTML = mostrarFavoritos
+        ? `<div class="text-center text-gray-600 mt-10">
+            <p class="text-xl">No tienes tours en favoritos todavía.</p>
+            <a href="/Cliente/Index" class="text-accent underline hover:text-alternative mt-2 inline-block">
+              Ver tours disponibles →
+            </a>
+          </div>`
+        : `<p class="text-center text-gray-600 mt-10">Todavía no hay tours disponibles.</p>`;
+      return;
+    }
 
-
-
-    rootDiv.innerHTML = barcosAMostrar.map(b => `
-      <div class="relative boat-card" data-id="${b.id}">
-        <a href="/Barcos/Informacion?id=${b.id}" class="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
-          <img src="${b.imagen}" alt="${b.nombre}" class="w-full h-48 object-cover" />
+    rootDiv.innerHTML = toursAMostrar.map(t => `
+      <div class="relative tour-card" data-id="${t.id}">
+        <a href="/Tours/Informacion?id=${t.id}" class="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+          <img src="${t.imagen}" alt="${t.nombre}" class="w-full h-48 object-cover" />
           <div class="p-4">
-            <h2 class="text-lg font-bold">${b.nombre}</h2>
-            <p class="text-primary font-semibold">€${b.precio}/día</p>
+            <h2 class="text-lg font-bold">${t.nombre}</h2>
+            <p class="text-gray-600 text-sm">${t.puerto} – ${t.fecha} ${t.hora}</p>
+            <p class="text-primary font-semibold">€${t.precio}/persona</p>
           </div>
         </a>
-        <button type="button" class="absolute bottom-2 right-2   hover:bg-opacity-100 transition text-xl" data-id="${b.id}">
+        <button type="button" class="absolute bottom-2 right-2 hover:bg-opacity-100 transition text-xl" data-id="${t.id}">
           <span class="icon-fav">♡</span>
         </button>
       </div>
-    `).join('');
+    `).join("");
 
-    const favoritos = JSON.parse(localStorage.getItem("favoritos") || "[]");
-    document.querySelectorAll(".boat-card").forEach(card => {
+    const favoritos = JSON.parse(localStorage.getItem("favoritos_tours") || "[]");
+    document.querySelectorAll(".tour-card").forEach(card => {
       const id = card.dataset.id;
       const icon = card.querySelector(".icon-fav");
 
@@ -71,7 +64,7 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
 
       card.querySelector("button")?.addEventListener("click", (e) => {
         e.preventDefault();
-        let favs = JSON.parse(localStorage.getItem("favoritos") || "[]");
+        let favs = JSON.parse(localStorage.getItem("favoritos_tours") || "[]");
 
         if (favs.includes(id)) {
           favs = favs.filter(f => f !== id);
@@ -81,7 +74,7 @@ const mostrarFavoritos = Astro.props.favoritos ?? false;
           icon.textContent = "♥";
         }
 
-        localStorage.setItem("favoritos", JSON.stringify(favs));
+        localStorage.setItem("favoritos_tours", JSON.stringify(favs));
       });
     });
   });

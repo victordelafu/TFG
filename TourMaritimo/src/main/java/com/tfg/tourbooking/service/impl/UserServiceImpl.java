@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     // Registra un nuevo usuario con los datos del DTO
     @Override
-    public void registerUser(UserDto dto) {
+    public User registerUser(UserDto dto) {
         User user = new User();
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(dto.getPassword())); 
 
         user.setRole(dto.getRole());
-        userRepository.save(user); // Guarda el usuario en la base de datos
+         return userRepository.save(user); // Guarda el usuario en la base de datos
     }
 
     // Autentica al usuario comparando email y contraseña

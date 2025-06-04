@@ -4,79 +4,94 @@ import PatronLayout from '../../layouts/PatronLayout.astro';
 
 <PatronLayout>
   <section class="max-w-2xl mx-auto px-6 py-12 pt-[6.5rem]">
-    <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Publicar nuevo barco</h1>
+    <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Publicar nuevo tour</h1>
 
-    <form id="form-barco" class="space-y-6 bg-white p-8 rounded-2xl ">
+    <form id="form-tour" class="space-y-6 bg-white p-8 rounded-2xl">
+
+      <!-- Nombre del tour -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre del barco</label>
-        <input type="text" name="nombre" required
-          class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none" />
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre del tour</label>
+        <input type="text" name="nombre" required class="w-full px-4 py-2 rounded-lg border" />
       </div>
-
+    
+      <!-- Descripción -->
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-        <textarea name="descripcion" required rows="4"
-          class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none resize-none"></textarea>
+        <textarea name="descripcion" rows="4" required class="w-full px-4 py-2 rounded-lg border resize-none"></textarea>
       </div>
-
+    
+      <!-- Puerto de salida -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Puerto de salida</label>
+        <select name="puerto" required class="w-full px-4 py-2 rounded-lg border bg-white">
+          <option value="">Selecciona un puerto</option>
+          <option value="Barcelona">Barcelona</option>
+          <option value="Valencia">Valencia</option>
+          <option value="Málaga">Málaga</option>
+          <option value="Palma de Mallorca">Palma de Mallorca</option>
+          <option value="Ibiza">Ibiza</option>
+        </select>
+      </div>
+    
+      <!-- Fecha y hora -->
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Precio por día (€)</label>
-          <input type="number" name="precio" required
-            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none" />
+          <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de salida</label>
+          <input type="date" name="fecha" required class="w-full px-4 py-2 rounded-lg border" />
         </div>
-
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Imagen del barco</label>
-          <input type="file" name="imagen" accept="image/*" required
-            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:outline-none bg-white" />
+          <label class="block text-sm font-medium text-gray-700 mb-1">Hora de salida</label>
+          <input type="time" name="hora" required class="w-full px-4 py-2 rounded-lg border" />
         </div>
       </div>
-
+    
+      <!-- Duración y pasajeros -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Duración (horas)</label>
+          <input type="number" name="duracion" min="1" required class="w-full px-4 py-2 rounded-lg border" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Máx. pasajeros</label>
+          <input type="number" name="pasajeros" min="1" required class="w-full px-4 py-2 rounded-lg border" />
+        </div>
+      </div>
+    
+      <!-- Precio -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Precio por persona (€)</label>
+        <input type="number" name="precio" required class="w-full px-4 py-2 rounded-lg border" />
+      </div>
+    
+      <!-- Imagen -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Imagen del tour</label>
+        <input type="file" name="imagen" accept="image/*" required class="w-full px-4 py-2 rounded-lg border bg-white" />
+      </div>
+    
+      <!-- Extras -->
       <fieldset class="border border-gray-300 rounded-lg p-4">
         <legend class="font-semibold text-gray-700 text-base mb-2">Extras incluidos</legend>
         <div class="grid grid-cols-2 gap-2 text-sm text-gray-800">
-          <label class="flex items-center gap-2">
-            <input type="checkbox" name="extras" value="Chalecos salvavidas" class="accent-accent" />
-            Chalecos salvavidas
-          </label>
-          <label class="flex items-center gap-2">
-            <input type="checkbox" name="extras" value="GPS y radio marina" class="accent-accent" />
-            GPS y radio marina
-          </label>
-          <label class="flex items-center gap-2">
-            <input type="checkbox" name="extras" value="Equipo de pesca" class="accent-accent" />
-            Equipo de pesca
-          </label>
-          <label class="flex items-center gap-2">
-            <input type="checkbox" name="extras" value="Seguro incluido" class="accent-accent" />
-            Seguro incluido
-          </label>
-          <label class="flex items-center gap-2">
-            <input type="checkbox" name="extras" value="Nevera portátil" class="accent-accent" />
-            Nevera portátil
-          </label>
-          <label class="flex items-center gap-2">
-            <input type="checkbox" name="extras" value="Ducha exterior" class="accent-accent" />
-            Ducha exterior
-          </label>
+          <label><input type="checkbox" name="extras" value="Guía incluido" class="accent-accent" /> Guía incluido</label>
+          <label><input type="checkbox" name="extras" value="Equipo de snorkel" class="accent-accent" /> Snorkel</label>
+          <label><input type="checkbox" name="extras" value="Comida/bebida" class="accent-accent" /> Comida/bebida</label>
+          <label><input type="checkbox" name="extras" value="Seguro incluido" class="accent-accent" /> Seguro incluido</label>
         </div>
       </fieldset>
-
+    
       <div class="text-center">
-        <button type="submit"
-          class="bg-accent text-white text-base px-6 py-3 rounded-lg hover:bg-alternative transition duration-200 shadow-md">
-          Publicar barco
-        </button>
+        <button type="submit" class="bg-accent text-white px-6 py-3 rounded-lg hover:bg-alternative">Publicar tour</button>
       </div>
-
-      <p id="mensaje" class="mt-4 text-green-600 font-semibold text-center hidden">Se ha publicado tu barco</p>
+    
+      <p id="mensaje" class="mt-4 text-green-600 font-semibold text-center hidden">Se ha publicado tu tour</p>
     </form>
+    
   </section>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('form-barco');
+      const form = document.getElementById('form-tour');
       const mensaje = document.getElementById('mensaje');
   
       form.addEventListener('submit', async (e) => {
@@ -91,7 +106,6 @@ import PatronLayout from '../../layouts/PatronLayout.astro';
           return;
         }
   
-        // Convertir imagen a base64 (simulación de subida para localStorage o simple API)
         const toBase64 = file => new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result);
@@ -100,23 +114,27 @@ import PatronLayout from '../../layouts/PatronLayout.astro';
         });
   
         const imagenBase64 = await toBase64(imagenFile);
-  
         const datos = Object.fromEntries(formData.entries());
-        const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
-        const usuario = localStorage.getItem("usuario");
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
   
-        const nuevo = {
+        const nuevoTour = {
           id: Date.now().toString(),
           nombre: datos.nombre,
           descripcion: datos.descripcion,
+          puerto: datos.puerto,
+          fecha: datos.fecha,
+          hora: datos.hora,
+          duracion: datos.duracion,
+          pasajeros: datos.pasajeros,
           precio: datos.precio,
-          imagen: imagenBase64, // en lugar de una URL
+          imagen: imagenBase64,
           extras: extrasSeleccionados,
-          publicadoPor: usuario
+          publicadoPor: usuario?.id || "anonimo"
         };
   
-        barcos.push(nuevo);
-        localStorage.setItem('barcos', JSON.stringify(barcos));
+        const tours = JSON.parse(localStorage.getItem('tours') || '[]');
+        tours.push(nuevoTour);
+        localStorage.setItem('tours', JSON.stringify(tours));
   
         form.reset();
         mensaje.classList.remove('hidden');

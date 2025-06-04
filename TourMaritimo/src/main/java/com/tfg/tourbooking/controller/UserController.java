@@ -1,6 +1,8 @@
 package com.tfg.tourbooking.controller;
 
-// Importaciones necesarias para manejar respuestas HTTP y peticiones REST
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,16 +30,22 @@ public class UserController {
 
     // Endpoint para registrar un nuevo usuario (POST /api/register)
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDto userDto) {
-        // Verifica si el email ya existe
-        if (userService.existsByEmail(userDto.getEmail())) {
-            return ResponseEntity.badRequest().body("El email ya está registrado");
-        }
-
-        // Si no existe, registra el nuevo usuario
-        userService.registerUser(userDto);
-        return ResponseEntity.ok("Usuario registrado correctamente");
+public ResponseEntity<?> register(@RequestBody UserDto userDto) {
+    if (userService.existsByEmail(userDto.getEmail())) {
+        return ResponseEntity.badRequest().body("El email ya está registrado");
     }
+
+    User user = userService.registerUser(userDto);
+
+    // Crear DTO de respuesta
+    Map<String, Object> response = new HashMap<>();
+    response.put("id", user.getId());
+    response.put("name", user.getName());
+    response.put("email", user.getEmail());
+    response.put("role", user.getRole());
+
+    return ResponseEntity.ok(response);
+}
 
     // Endpoint para login (POST /api/login)
     @PostMapping("/login")

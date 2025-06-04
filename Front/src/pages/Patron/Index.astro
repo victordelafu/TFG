@@ -4,71 +4,73 @@ import Layout from "../../layouts/PatronLayout.astro";
 
 <Layout>
   <section class="max-w-6xl mx-auto px-4 py-10 pt-[6.5rem]">
-    <h1 class="text-3xl font-bold mb-6">Mis barcos publicados</h1>
-    <div id="mis-barcos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <h1 class="text-3xl font-bold mb-6">Mis tours publicados</h1>
+    <div id="mis-tours" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </section>
 
   <script type="module">
     document.addEventListener("DOMContentLoaded", () => {
-      const usuario = localStorage.getItem("usuario");
-      const barcos = JSON.parse(localStorage.getItem("barcos") || "[]");
-      const contenedor = document.getElementById("mis-barcos");
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const tours = JSON.parse(localStorage.getItem("tours") || "[]");
+      const contenedor = document.getElementById("mis-tours");
 
-      const mios = barcos.filter(b => b.publicadoPor === usuario);
+      const mios = tours.filter(t => t.publicadoPor === usuario?.id);
 
       if (mios.length === 0) {
-        contenedor.innerHTML = "<p class='text-gray-600'>No has publicado ningún barco aún.</p>";
+        contenedor.innerHTML = "<p class='text-gray-600'>No has publicado ningún tour aún.</p>";
         return;
       }
 
-      contenedor.innerHTML = mios.map(b => `
+      contenedor.innerHTML = mios.map(t => `
         <div class="relative bg-white rounded-xl shadow overflow-hidden">
-          <img src="${b.imagen}" alt="${b.nombre}" class="w-full h-48 object-cover" />
+          <img src="${t.imagen}" alt="${t.nombre}" class="w-full h-48 object-cover" />
           <div class="p-4">
-            <h2 class="text-lg font-bold">${b.nombre}</h2>
-            <p class="text-gray-600 text-sm mb-2">€${b.precio}/día</p>
-            <div class="flex justify-between">
-              <a href="/Patron/Editar?id=${b.id}" class="text-accent hover:underline">Editar</a>
-              <button class="text-red-600 hover:underline eliminar-btn" data-id="${b.id}">Eliminar</button>
+            <h2 class="text-lg font-bold">${t.nombre}</h2>
+            <p class="text-gray-600 text-sm">Puerto: ${t.puerto}</p>
+            <p class="text-gray-600 text-sm">Fecha: ${t.fecha} a las ${t.hora}</p>
+            <p class="text-gray-600 text-sm mb-2">€${t.precio} por persona</p>
+            <div class="flex justify-between items-center">
+              <a href="/Patron/Editar?id=${t.id}" class="text-accent hover:underline text-sm">Editar</a>
+              <button class="text-red-600 hover:underline text-sm eliminar-btn" data-id="${t.id}">Eliminar</button>
             </div>
           </div>
         </div>
-      `).join('');
-      
+      `).join("");
+
+      // Confirmar eliminación
       document.querySelectorAll(".eliminar-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const id = btn.dataset.id;
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.id;
 
-    const confirmBox = document.createElement("div");
-    confirmBox.className = "fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50";
+          const confirmBox = document.createElement("div");
+          confirmBox.className = "fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50";
 
-    confirmBox.innerHTML = `
-      <div class="bg-white p-6 rounded-xl max-w-sm w-full text-center shadow-xl">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">¿Seguro que quieres eliminar este barco?</h2>
-        <p class="text-gray-600 mb-6">Esta acción no se puede deshacer.</p>
-        <div class="flex justify-center gap-4">
-          <button id="cancelar" class="px-4 py-2 rounded border hover:bg-gray-100">Cancelar</button>
-          <button id="confirmar" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Eliminar</button>
-        </div>
-      </div>
-    `;
+          confirmBox.innerHTML = `
+            <div class="bg-white p-6 rounded-xl max-w-sm w-full text-center shadow-xl">
+              <h2 class="text-xl font-bold text-gray-800 mb-4">¿Eliminar este tour?</h2>
+              <p class="text-gray-600 mb-6">Esta acción no se puede deshacer.</p>
+              <div class="flex justify-center gap-4">
+                <button id="cancelar" class="px-4 py-2 rounded border hover:bg-gray-100">Cancelar</button>
+                <button id="confirmar" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Eliminar</button>
+              </div>
+            </div>
+          `;
 
-    document.body.appendChild(confirmBox);
+          document.body.appendChild(confirmBox);
 
-    confirmBox.querySelector("#cancelar").addEventListener("click", () => {
-      document.body.removeChild(confirmBox);
-    });
+          confirmBox.querySelector("#cancelar").addEventListener("click", () => {
+            document.body.removeChild(confirmBox);
+          });
 
-    confirmBox.querySelector("#confirmar").addEventListener("click", () => {
-      const barcos = JSON.parse(localStorage.getItem("barcos") || "[]");
-      const nuevos = barcos.filter(b => b.id !== id);
-      localStorage.setItem("barcos", JSON.stringify(nuevos));
-      document.body.removeChild(confirmBox);
-      location.reload();
-    });
-  });
-});
-
+          confirmBox.querySelector("#confirmar").addEventListener("click", () => {
+            const tours = JSON.parse(localStorage.getItem("tours") || "[]");
+            const nuevos = tours.filter(t => t.id !== id);
+            localStorage.setItem("tours", JSON.stringify(nuevos));
+            document.body.removeChild(confirmBox);
+            location.reload();
+          });
+        });
+      });
     });
   </script>
 </Layout>

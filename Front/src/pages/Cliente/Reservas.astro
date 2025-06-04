@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/ClienteLayout.astro';
+---
+
+<Layout>
+  <section class="max-w-6xl mx-auto px-4 py-12 pt-[6.5rem]">
+    <h1 class="text-4xl font-bold text-center text-primary mb-12 ">Mis reservas confirmadas</h1>
+    <div id="mis-reservas" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </section>
+
+  <script type="module">
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const reservas = JSON.parse(localStorage.getItem("reservas") || "[]");
+      const tours = JSON.parse(localStorage.getItem("tours") || "[]");
+      const contenedor = document.getElementById("mis-reservas");
+
+      const aceptadas = reservas.filter(r => r.solicitante === usuario?.id && r.estado === "aceptada");
+
+      if (aceptadas.length === 0) {
+        contenedor.innerHTML = `
+          <div class="col-span-full text-center text-gray-600">
+            <p class="text-xl mb-2">No tienes reservas confirmadas todavía.</p>
+            <a href="/Cliente/Index" class="text-accent hover:underline">Explora tours disponibles →</a>
+          </div>
+        `;
+        return;
+      }
+
+      contenedor.innerHTML = aceptadas.map(reserva => {
+        const tour = tours.find(t => t.id === reserva.idTour);
+        if (!tour) return "";
+
+        return `
+          <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+            <img src="${tour.imagen}" alt="${tour.nombre}" class="w-full h-48 object-cover" />
+            <div class="p-4">
+              <h2 class="text-lg font-bold text-gray-800 mb-1">${tour.nombre}</h2>
+              <p class="text-sm text-gray-600 mb-1">Puerto: ${tour.puerto}</p>
+              <p class="text-sm text-gray-600 mb-1">Fecha: ${tour.fecha} a las ${tour.hora}</p>
+              <p class="text-sm text-gray-600 mb-1">Personas: ${reserva.personas}</p>
+              <p class="text-sm text-primary font-semibold mt-2">€${tour.precio} por persona</p>
+              <span class="inline-block mt-3 bg-green-100 text-green-700 text-sm px-3 py-1 rounded-full"> Confirmado</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    });
+  </script>
+</Layout>
+

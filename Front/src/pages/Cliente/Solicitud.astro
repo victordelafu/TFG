@@ -1,0 +1,78 @@
+---
+import Layout from '../../layouts/ClienteLayout.astro';
+---
+
+<Layout>
+  <section class="max-w-xl mx-auto px-6 py-12 pt-[6.5rem]">
+    <h1 class="text-3xl font-bold text-center mb-6">Solicitud de reserva</h1>
+
+    <form id="form-reserva" class="space-y-6 bg-white p-6 rounded-xl shadow">
+      <input type="hidden" name="idTour" />
+      <p id="tour-info" class="text-lg font-medium text-center text-gray-700"></p>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">¿Cuántas personas?</label>
+        <input type="number" name="personas" min="1" required class="w-full px-4 py-2 border rounded-lg" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono de contacto (opcional)</label>
+        <input type="tel" name="telefono" placeholder="Ej: 600123456" class="w-full px-4 py-2 border rounded-lg" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Comentarios adicionales</label>
+        <textarea name="comentarios" rows="3" class="w-full px-4 py-2 border rounded-lg resize-none" placeholder="Escribe algún detalle o preferencia..."></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="bg-accent text-white px-6 py-3 rounded-lg hover:bg-alternative">Enviar solicitud</button>
+      </div>
+
+      <p id="mensaje" class="text-green-600 text-center mt-4 hidden font-semibold">Solicitud enviada correctamente</p>
+    </form>
+  </section>
+
+  <script type="module">
+    document.addEventListener("DOMContentLoaded", () => {
+      const id = new URLSearchParams(window.location.search).get("id");
+      const tours = JSON.parse(localStorage.getItem("tours") || "[]");
+      const tour = tours.find(t => t.id === id);
+
+      const tourInfo = document.getElementById("tour-info");
+      const form = document.getElementById("form-reserva");
+      const mensaje = document.getElementById("mensaje");
+
+      if (!tour) {
+        tourInfo.textContent = "Tour no encontrado.";
+        return;
+      }
+
+      document.querySelector("input[name='idTour']").value = tour.id;
+      tourInfo.textContent = `Tour: ${tour.nombre} (${tour.fecha} a las ${tour.hora})`;
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        const reserva = {
+          id: Date.now().toString(),
+          idTour: formData.get("idTour"),
+          personas: parseInt(formData.get("personas")),
+          telefono: formData.get("telefono") || "",
+          comentarios: formData.get("comentarios") || "",
+          estado: "pendiente",
+          fechaSolicitud: new Date().toISOString(),
+          solicitante: JSON.parse(localStorage.getItem("usuario"))?.id || "anonimo"
+        };
+
+        const reservas = JSON.parse(localStorage.getItem("reservas") || "[]");
+        reservas.push(reserva);
+        localStorage.setItem("reservas", JSON.stringify(reservas));
+
+        form.reset();
+        mensaje.classList.remove("hidden");
+      });
+    });
+  </script>
+</Layout>

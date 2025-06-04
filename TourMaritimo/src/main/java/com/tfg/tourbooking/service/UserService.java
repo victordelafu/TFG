@@ -13,7 +13,7 @@ public interface UserService {
     boolean existsByEmail(String email);
 
     // Registra un nuevo usuario con los datos recibidos desde un UserDto
-    void registerUser(UserDto userDto);
+    User registerUser(UserDto userDto);
 
     // Autentica un usuario a partir de un LoginDto (email y contraseña), y puede lanzar una excepción si algo falla
     User authenticate(LoginDto loginDto) throws IllegalArgumentException;

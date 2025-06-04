@@ -1,50 +1,75 @@
 ---
-import Layout from "../../layouts/PatronLayout.astro";
+import PatronLayout from '../../layouts/PatronLayout.astro';
 ---
 
-<Layout>
-  <section class="max-w-5xl mx-auto px-4 py-10 pt-[6.5rem]">
-    <h1 class="text-3xl font-bold mb-6 text-center">Solicitudes de Reserva</h1>
-    <div id="solicitudes-container" class="grid gap-6"></div>
+<PatronLayout>
+  <section class="max-w-5xl mx-auto px-6 py-12 pt-[6.5rem]">
+    <h1 class="text-3xl font-bold mb-6 text-center">Solicitudes de reserva</h1>
+    <div id="solicitudes"></div>
   </section>
 
   <script type="module">
-    async function cargarSolicitudes() {
-      const usuario = JSON.parse(localStorage.getItem("usuario")); // patrón logueado
-      const contenedor = document.getElementById("solicitudes-container");
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const tours = JSON.parse(localStorage.getItem("tours") || "[]");
+      const reservas = JSON.parse(localStorage.getItem("reservas") || "[]");
+      const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
 
-      const res = await fetch(`http://localhost:8080/api/solicitudes/patron/${usuario.email}`);
-      const solicitudes = await res.json();
+      const misTours = tours.filter(t => t.publicadoPor === usuario?.id);
+      const solicitudes = reservas.filter(r => misTours.find(t => t.id === r.idTour));
+
+      const contenedor = document.getElementById("solicitudes");
 
       if (solicitudes.length === 0) {
-        contenedor.innerHTML = `<p class="text-center text-gray-600">No hay solicitudes pendientes.</p>`;
+        contenedor.innerHTML = "<p class='text-center text-gray-600'>No tienes solicitudes por revisar.</p>";
         return;
       }
 
-      contenedor.innerHTML = solicitudes.map(s => `
-        <div class="bg-white p-6 rounded-xl shadow border border-gray-200">
-          <h2 class="text-xl font-bold mb-2">Solicitud de: ${s.clienteEmail}</h2>
-          <p class="mb-1 text-gray-700">Barco ID: <strong>${s.barcoId}</strong></p>
-          <p class="mb-1 text-gray-700">Estado: 
-            <span class="${s.estado === 'PENDIENTE' ? 'text-yellow-600' : s.estado === 'ACEPTADA' ? 'text-green-600' : 'text-red-600'} font-semibold">
-              ${s.estado}
-            </span>
-          </p>
-          <div class="flex gap-4 mt-4">
-            <button onclick="actualizarEstado(${s.id}, 'ACEPTADA')" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Aceptar</button>
-            <button onclick="actualizarEstado(${s.id}, 'RECHAZADA')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Rechazar</button>
+      contenedor.innerHTML = solicitudes.map(r => {
+        const tour = tours.find(t => t.id === r.idTour);
+        const solicitante = usuarios.find(u => u.id === r.solicitante);
+        const nombreSolicitante = solicitante?.nombre || "Desconocido";
+
+        return `
+          <div class="bg-white rounded-xl shadow p-6 mb-6 border border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">${tour?.nombre || "Tour desconocido"}</h2>
+            <p class="text-gray-700"><strong>Solicitante:</strong> ${nombreSolicitante}</p>
+            <p class="text-gray-700"><strong>Personas:</strong> ${r.personas}</p>
+            <p class="text-gray-700 mb-2"><strong>Estado:</strong> 
+              <span class="${r.estado === 'aceptada' ? 'text-green-600' : r.estado === 'rechazada' ? 'text-red-600' : 'text-yellow-600'} font-medium">
+                ${r.estado}
+              </span>
+            </p>
+            ${r.estado === "pendiente" ? `
+              <div class="flex gap-4 mt-3">
+                <button class="aceptar px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition" data-id="${r.id}">Aceptar</button>
+                <button class="rechazar px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition" data-id="${r.id}">Rechazar</button>
+              </div>` : ""}
           </div>
-        </div>
-      `).join("");
-    }
+        `;
+      }).join("");
 
-    async function actualizarEstado(id, estado) {
-      await fetch(`http://localhost:8080/api/solicitudes/${id}/estado?estado=${estado}`, {
-        method: "PUT"
+      document.querySelectorAll(".aceptar").forEach(btn => {
+        btn.addEventListener("click", () => {
+          actualizarEstado(btn.dataset.id, "aceptada");
+        });
       });
-      cargarSolicitudes();
-    }
 
-    document.addEventListener("DOMContentLoaded", cargarSolicitudes);
+      document.querySelectorAll(".rechazar").forEach(btn => {
+        btn.addEventListener("click", () => {
+          actualizarEstado(btn.dataset.id, "rechazada");
+        });
+      });
+
+      function actualizarEstado(id, nuevoEstado) {
+        const reservas = JSON.parse(localStorage.getItem("reservas") || "[]");
+        const index = reservas.findIndex(r => r.id === id);
+        if (index !== -1) {
+          reservas[index].estado = nuevoEstado;
+          localStorage.setItem("reservas", JSON.stringify(reservas));
+          location.reload();
+        }
+      }
+    });
   </script>
-</Layout>
+</PatronLayout>
