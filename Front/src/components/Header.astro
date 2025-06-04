@@ -28,7 +28,7 @@ const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underlin
     const menuIzquierdo = document.getElementById("menu-izquierdo");
     const menuDerecho = document.getElementById("menu-derecho");
 
-    const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underline decoration-sky-500 underline-offset-8 duration-800 cursor-pointer';
+    const itemStyles = 'p-2 px-4 text-base rounded-md transition-colors hover:underline decoration-sky-500 underline-offset-4 cursor-pointer';
     const crearItem = (href, texto) => `<li><a class="${itemStyles}" href="${href}">${texto}</a></li>`;
 
     // Menú según rol
@@ -47,6 +47,12 @@ const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underlin
       ];
     }
     menuIzquierdo.innerHTML = items.map(item => crearItem(item.href, item.text)).join("");
+
+    // Menú derecho (reservas solo para patrón)
+    let itemsDerecha = [];
+    if (rol === "PATRON") {
+      itemsDerecha.push({ href: "/Patron/Reservas", text: "Reservas" });
+    }
 
     const contacto = crearItem('/Contacto', 'Contacto');
     let cuentaHTML = '';
@@ -70,7 +76,8 @@ const itemStyles = 'p-3 px-6 rounded-lg text-lg transition-colors hover:underlin
       cuentaHTML = `<li><a href="#" id="open-login" class="${itemStyles}">Iniciar sesión</a></li>`;
     }
 
-    menuDerecho.innerHTML = contacto + cuentaHTML;
+    const itemsDerechaHTML = itemsDerecha.map(item => crearItem(item.href, item.text)).join("");
+    menuDerecho.innerHTML = itemsDerechaHTML + contacto + cuentaHTML;
 
     document.getElementById("cerrar-sesion")?.addEventListener("click", () => {
       localStorage.removeItem("usuario");

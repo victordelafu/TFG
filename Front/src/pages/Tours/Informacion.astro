@@ -34,7 +34,14 @@ import Layout from '../../layouts/ClienteLayout.astro';
 
       const usuario = JSON.parse(localStorage.getItem("usuario"));
       const reservas = JSON.parse(localStorage.getItem("reservas") || "[]");
+
       const yaReservado = reservas.some(r => r.idTour === tour.id && r.solicitante === usuario?.id);
+
+      const reservasConfirmadas = reservas.filter(r =>
+        r.idTour === tour.id && r.estado === "aceptada"
+      );
+      const totalPersonas = reservasConfirmadas.reduce((acc, r) => acc + r.personas, 0);
+      const tourCompleto = totalPersonas >= parseInt(tour.pasajeros);
 
       const wrapper = document.createElement("div");
       wrapper.className = "relative";
@@ -86,19 +93,23 @@ import Layout from '../../layouts/ClienteLayout.astro';
               ${
                 yaReservado
                   ? `<div class="bg-green-100 text-green-700 text-center px-4 py-3 rounded-lg font-medium">
-                      Ya tienes reservado este tour
+                      Ya has solicitado este tour
                     </div>`
-                  : `<button id="abrir-modal" class="bg-accent text-white px-6 py-3 rounded-lg hover:bg-alternative transition font-medium text-center w-full">
-                      Reservar plaza
-                    </button>`
+                  : tourCompleto
+                    ? `<div class="bg-red-100 text-red-700 text-center px-4 py-3 rounded-lg font-medium">
+                        Este tour ya está completo
+                      </div>`
+                    : `<button id="abrir-modal" class="bg-accent text-white px-6 py-3 rounded-lg hover:bg-alternative transition font-medium text-center w-full">
+                        Reservar plaza
+                      </button>`
               }
             </div>
           </div>
         </div>
       `;
 
-      // Modal solo si no ha reservado
-      if (!yaReservado) {
+      // Modal solo si está disponible
+      if (!yaReservado && !tourCompleto) {
         const modal = document.createElement("div");
         modal.id = "modal-reserva";
         modal.className = "fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 hidden";

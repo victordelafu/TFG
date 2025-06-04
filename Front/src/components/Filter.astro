@@ -1,20 +1,38 @@
 ---
 const { onFilter } = Astro.props;
+
+// Puedes editar esta lista o generarla dinámicamente si lo deseas
+const puertos = ["Barcelona", "Valencia", "Palma", "Ibiza", "Málaga"];
 ---
 
-<form id="filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-  <input type="text" name="Puerto" placeholder="Puerto" class="border px-4 py-2 rounded" />
+<form id="filter-form" class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+  <select name="Puerto" class="border px-4 py-2 rounded">
+    <option value="">Todos los puertos</option>
+    {puertos.map(puerto => (
+      <option value={puerto}>{puerto}</option>
+    ))}
+  </select>
+
   <input type="number" name="precioMax" placeholder="Precio máximo" class="border px-4 py-2 rounded" />
-  <input type="date" name="fecha" placeholder="Fecha" class="border px-4 py-2 rounded" />
+  <input type="date" name="fecha" class="border px-4 py-2 rounded" />
+
   <button type="submit" class="bg-accent text-white px-4 py-2 rounded hover:bg-alternative">Filtrar</button>
+  <button type="button" id="clear-filters" class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300">Limpiar</button>
 </form>
 
 <script is:inline>
   const form = document.getElementById("filter-form");
+  const clearBtn = document.getElementById("clear-filters");
+
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = new FormData(form);
     const filtros = Object.fromEntries(data.entries());
     window.dispatchEvent(new CustomEvent("filtros-aplicados", { detail: filtros }));
+  });
+
+  clearBtn?.addEventListener("click", () => {
+    form.reset();
+    window.dispatchEvent(new CustomEvent("filtros-aplicados", { detail: {} }));
   });
 </script>
